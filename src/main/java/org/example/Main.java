@@ -31,7 +31,7 @@ public class Main {
                     String description = scanner.nextLine();
                     System.out.println("Enter due date (yyyy-MM-dd):");
                     String dateInput = scanner.nextLine();
-                    System.out.println("Enter Priority");
+                    System.out.println("Enter Priority(LOW, MEDIUM, HIGH)");
                     String inputPriority = scanner.nextLine();
 
                     LocalDate dueDate = null;
@@ -82,17 +82,18 @@ public class Main {
             }
 
 
+
+
         }
+
+        scanner.close();
     }
 
     private static void addTask(String description, LocalDate dueDate, Priority priority){
-        if(dueDate != null){
-            tasks.add(new Task(description, dueDate, priority));
-            System.out.println("Task added!");
-        }else {
-            System.out.println("Please enter date");
-        }
-
+        Task task = new Task(description, dueDate, priority);
+        tasks.add(task);
+        TaskFileHandler.saveTasks(tasks);
+        System.out.println("Task added successfully!");
     }
 
     private static void  viewTasks(){
@@ -108,6 +109,7 @@ public class Main {
     private static  void markTasksAsCompleted(int index){
         if(index >= 0 && index< tasks.size()){
             tasks.get(index).markAsCompleted();
+            TaskFileHandler.saveTasks(tasks);
             System.out.println("Task marked as completed");
         }else{
             System.out.println("Invalid task number.");
@@ -117,6 +119,7 @@ public class Main {
     private static void  removeTask(int index){
         if(index >= 0 && index< tasks.size()){
             tasks.remove(index);
+            TaskFileHandler.saveTasks(tasks);
             System.out.println("Task removed!");
         }else {
             System.out.println("Invalid task number.");
